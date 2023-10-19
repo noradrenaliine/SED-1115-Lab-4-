@@ -1,0 +1,44 @@
+#install RTClib
+import time
+import RTClib.h
+import Wire.h
+from machine import Pin, I2C
+
+#initialize DS3231 RTC
+i2c = I2C(1, sda=Pin(14), scl=Pin(15)) 
+devices = i2c.scan()
+
+#setup pins
+# Define the GPIO pin numbers for the buttons (adjust these based on your hardware)
+start_button = Pin(13)
+stop_button = Pin(11)
+
+# Set up the GPIO pins as inputs with pull-up resistors
+GPIO.setup(start_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(stop_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+#ask for user to press button - explain instructions here
+print ("welcome to THE skill-testing game of the century. When you're ready press the start button (GPIO 13) count to 15 in your head, once you think you've made it to 15, press the stop button (GPIO 11) lets test your perception of time")
+
+#create a loop that will record time when buttons are pressed for the game
+while True: #button is pressed
+    input(GPIO.input(BUTTON1_PIN) == GPIO.LOW)
+    rtc.begin(start_time)
+
+        #button is pressed again
+    input(GPIO.input(BUTTON2_PIN) == GPIO.LOW) 
+    rtc.stop(end_time)
+    elapsed_time = end_time - start_time
+    break 
+    
+
+#print elapsed time by calling function game_time
+print ('elapsed_time')
+             
+#create a place to store game info
+log = open("log.txt", "a")
+log.write("game_time")
+
+#to start again, set I2C to 0 using code from lab manual
+i2c.writeto_mem(0x68, 0x00, b'\x00') 
+data = i2c.readfrom_mem(0x68, 0x00, 1)
